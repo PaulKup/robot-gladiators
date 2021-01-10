@@ -55,7 +55,9 @@ var fight = function (enemy) {
                 window.alert(enemy.name + " still has " + enemy.health + " health left.");
             }
         } else {
-
+            if (fightOrSkip()) {
+                break;
+            }
             var damage = randomNumber(enemy.attack - 3, enemy.attack);
             playerInfo.health = Math.max(0, playerInfo.health - enemy.attack);
             console.log(
@@ -107,6 +109,18 @@ var startGame = function () {
 var endGame = function () {
     if (playerInfo.health > 0) {
         window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + ".");
+        var playerScore = playerInfo.money;
+        var highScore = localStorage.getItem("highScore");
+        if (highScore === null) {
+            highScore = 0;
+        }
+        if (playerScore > highScore) {
+            window.alert("Congratulations you have set a new highscore of " + playerScore + ". The old highscore was " + highScore);
+            localStorage.setItem("highScore", playerScore);
+            localStorage.setItem("name", playerInfo.name);
+        } else {
+            window.alert("Your score: " + playerScore + "\n highscore: " + highScore);
+        }
     } else {
         window.alert("You've lost your robot in battle.");
     }
